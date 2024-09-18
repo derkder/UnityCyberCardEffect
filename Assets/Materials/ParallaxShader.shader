@@ -121,7 +121,10 @@ Shader "Custom/Parallax"
                 reflectionVec.xy *= depth;
                 float res = 1024;
                 float a = 1 / res;
+                //这里感觉.x要除以1080，y要除以1920.但是这里改了就不生效
                 reflectionVec.xy *= a;
+                //reflectionVec.x *= 1 / 1080;
+                //reflectionVec.y *= 1 / 1920;
                 float2 newUV = i.texcoord + reflectionVec.xy;
                 fixed4 reflectionSample = tex2D(_MainTex, newUV);
                 return reflectionSample;
