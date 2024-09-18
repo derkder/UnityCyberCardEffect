@@ -65,7 +65,7 @@ Shader "Custom/Parallax"
                 fixed4 color    : COLOR;
                 float2 texcoord : TEXCOORD0;
                 float3 worldPos : TEXCOORD1;
-                float3x3 tangentToWorld : TEXCOORD2;
+                float3x3 worldToTangent : TEXCOORD2;
             };
 
             // float3 _WorldSpaceCameraPos;
@@ -82,38 +82,50 @@ Shader "Custom/Parallax"
                 // 计算世界空间的法线、切线和双切线
                 float3 worldNormal = normalize(mul((float3x3)unity_ObjectToWorld, v.normal));
                 float3 worldTangent = normalize(mul((float3x3)unity_ObjectToWorld, v.tangent.xyz));
-                float tangentSign = v.tangent.w * unity_WorldTransformParams.w;
-                float3 worldBitangent = cross(worldNormal, worldTangent) * tangentSign;
+                float3 worldBitangent = cross(worldNormal, worldTangent) * v.tangent.w;
 
-                // 构建切线到世界空间的矩阵
-                o.tangentToWorld = float3x3(worldTangent, worldBitangent, worldNormal);
-
+                o.worldToTangent = float3x3(worldTangent, worldBitangent, worldNormal);
                 return o;
             }
+
 
             // 片元着色器
             fixed4 frag (v2f i) : SV_Target
             {
-                // 计算世界空间的视线方向
-                //float3 viewDirWS = normalize(_WorldSpaceCameraPos - i.worldPos);
+
+                //--------
+                ////自己试出来对的
+                //// 计算世界空间的视线方向
+                //float3 viewDirWS = mul((float3x3)unity_CameraToWorld, float3(0,0,1));
+                //// 将视线方向转换到切线空间
+                //float3 viewDirTS = mul((float3x3)i.worldToTangent, viewDirWS);
+                //float3 reflectionVec = viewDirTS;//偏移的方向应该与实现方向相反的,但是上面的怎么变都是这样才是对的，怀疑人生了
+                //---------
+                //视频里的，也是对的
                 float3 viewDirWS = mul((float3x3)unity_CameraToWorld, float3(0,0,1));
+                float3 viewDirTS = mul((float3x3)i.worldToTangent, viewDirWS);//前后参数互换对应从哪个空间转到哪个空间
+                float3 normalTS = float3(0, 0, 1);//他说这是切空间中平面的法线，好像还真是这么个理
+                float3 reflectionVec = reflect(viewDirTS, normalTS);
 
-                // 将视线方向转换到切线空间
-                float3 viewDirTS = mul(viewDirWS, (float3x3)i.tangentToWorld);
 
-                // 在切线空间中定义法线
-                float3 normalTS = float3(0, 0, 1);
 
-                // 计算反射向量
-                float3 reflectionVec = reflect(-viewDirTS, normalTS);
-
-                // 调整 UV 坐标
+                 //--------
+                 //没有深度
+                //float2 newUV = i.texcoord + reflectionVec.xy;
+                //fixed4 reflectionSample = tex2D(_MainTex, newUV);
+                //return reflectionSample;
+                //--------
+                //有深度
+                float tempDepth = 800;// = 1024对应没有贴图的情况
+                float depth = tempDepth / abs(reflectionVec.z);
+                reflectionVec.xy *= depth;
+                float res = 1024;
+                float a = 1 / res;
+                reflectionVec.xy *= a;
                 float2 newUV = i.texcoord + reflectionVec.xy;
-
-                // 使用新的 UV 采样纹理
                 fixed4 reflectionSample = tex2D(_MainTex, newUV);
-
                 return reflectionSample;
+                //--------
             }
             ENDCG
         }
