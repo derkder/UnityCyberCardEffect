@@ -127,6 +127,37 @@ Shader "Custom/Parallax"
                 //reflectionVec.y *= 1 / 1920;
                 float2 newUV = i.texcoord + reflectionVec.xy;
                 fixed4 reflectionSample = tex2D(_MainTex, newUV);
+
+
+                //bloom
+                // 2. 提取高亮部分
+                float luminance = dot(reflectionSample.rgb, float3(0.2126, 0.7152, 0.0722));
+                float knee = _Threshold * _SoftKnee;
+                float soft = luminance - _Threshold + knee;
+                soft = saturate(soft / (2.0 * knee));
+                float bloomFactor = max(soft, step(_Threshold, luminance));
+
+                fixed3 bloom = reflectionSample.rgb * bloomFactor;
+
+                // 3. 模糊处理
+                fixed3 blurredBloom = fixed3(0, 0, 0);
+                int samples = (_BlurSize * 2 + 1) * (_BlurSize * 2 + 1);
+                for (int x = -_BlurSize; x <= _BlurSize; x++)
+                {
+                    for (int y = -_BlurSize; y <= _BlurSize; y++)
+                    {
+                        float2 offset = float2(x, y) * _MainTex_TexelSize.xy;
+                        blurredBloom += tex2D(_MainTex, i.texcoord + offset).rgb * bloomFactor;
+                    }
+                }
+                blurredBloom /= samples;
+
+                // 4. 合并结果
+                //fixed3 finalColor = col.rgb + blurredBloom * _Intensity;
+                float dynamicIntensity = sin(_Time.y * _Speed) + 1.0; // 从0到2循环变化
+                fixed3 finalColor = reflectionSample.rgb + blurredBloom * dynamicIntensity;
+                return fixed4(finalColor, reflectionSample.a);
+
                 return reflectionSample;
                 //--------
             }

@@ -91,6 +91,7 @@ Shader "Custom/UI/UIBloom"
             fixed4 frag (v2f i) : SV_Target
             {
                 float2 uv = i.texcoord;
+                return tex2D(_MainTex, uv);
                 //return float4(_Fade, 0, 0, 0);
                 //float4 color = tex2D(_MainTex, uv);
 
@@ -107,6 +108,7 @@ Shader "Custom/UI/UIBloom"
 
                 //return float4(lineNoise, lineNoise, lineNoise, lineNoise);
 
+                //把下面的0.05改成0.1变化会大一点
                 float4 colorR = tex2D(_MainTex, uv);
                 float4 colorG = tex2D(_MainTex, uv + float2(lineNoise * 0.05 * randomNoise(7.0), 0));
                 float4 colorB = tex2D(_MainTex, uv - float2(lineNoise * 0.05 * randomNoise(23.0), 0));

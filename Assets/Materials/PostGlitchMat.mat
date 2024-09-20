@@ -94,11 +94,11 @@ Material:
     - _AlphaClip: 0
     - _Blend: 0
     - _BlockLayer1_Indensity: 1
-    - _BlockLayer1_Intensity: 1.86
+    - _BlockLayer1_Intensity: 1.94
     - _BlockLayer1_U: 10.72
     - _BlockLayer1_V: 11.53
     - _BlockLayer2_Indensity: 1
-    - _BlockLayer2_Intensity: 1.17
+    - _BlockLayer2_Intensity: 0.43
     - _BlockLayer2_U: 4.69
     - _BlockLayer2_V: 5.48
     - _BlurSize: 4
