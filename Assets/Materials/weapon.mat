@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ScrollDoggy
+  m_Name: weapon
   m_Shader: {fileID: 4800000, guid: 05915bfa759f53142b708298cb4920b2, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -45,7 +45,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: f6254d13a98ae004bb375f5b24bcdb90, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -61,13 +61,13 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ScrollLightMaskTex:
-        m_Texture: {fileID: 2800000, guid: c7e93c9f2f1fd6b47ac0483644603cef, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ScrollLightTex:
-        m_Texture: {fileID: 2800000, guid: 5ee98662fa302304f92f8752ce51a72f, type: 3}
-        m_Scale: {x: 3, y: 3}
-        m_Offset: {x: -0.42, y: -0.29}
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -88,12 +88,6 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _Blend: 0
-    - _BlockLayer1_Indensity: 2.21
-    - _BlockLayer1_U: 3.8
-    - _BlockLayer1_V: 14
-    - _BlockLayer2_Indensity: 1.46
-    - _BlockLayer2_U: 8.26
-    - _BlockLayer2_V: 5
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -103,20 +97,15 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
-    - _Fade: 0.825
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _Indensity: 0.1
-    - _IndensitySpeed: 0.5
     - _Metallic: 0
     - _OcclusionStrength: 1
-    - _Offset: 0.39
     - _Parallax: 0.005
     - _QueueOffset: 0
-    - _RGBSplit_Indensity: 1
     - _ReceiveShadows: 1
-    - _ScrollLightMoveSpeed: 0.1
+    - _ScrollLightMoveSpeed: 0
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -126,11 +115,11 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 24.62827, g: 1.1279715, b: 0.902607, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &5637718800392944102
+--- !u!114 &6782157475878907824
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-4137691154732555880
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 5
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -7,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ScrollDoggy
-  m_Shader: {fileID: 4800000, guid: 05915bfa759f53142b708298cb4920b2, type: 3}
+  m_Name: PostGlitchMat
+  m_Shader: {fileID: 4800000, guid: 23e4daab0390f3a41a75aacfe62e1c02, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -45,7 +58,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: f6254d13a98ae004bb375f5b24bcdb90, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -60,14 +73,6 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _ScrollLightMaskTex:
-        m_Texture: {fileID: 2800000, guid: c7e93c9f2f1fd6b47ac0483644603cef, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ScrollLightTex:
-        m_Texture: {fileID: 2800000, guid: 5ee98662fa302304f92f8752ce51a72f, type: 3}
-        m_Scale: {x: 3, y: 3}
-        m_Offset: {x: -0.42, y: -0.29}
     - _SpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -88,12 +93,15 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _Blend: 0
-    - _BlockLayer1_Indensity: 2.21
-    - _BlockLayer1_U: 3.8
-    - _BlockLayer1_V: 14
-    - _BlockLayer2_Indensity: 1.46
-    - _BlockLayer2_U: 8.26
-    - _BlockLayer2_V: 5
+    - _BlockLayer1_Indensity: 1
+    - _BlockLayer1_Intensity: 1.86
+    - _BlockLayer1_U: 10.72
+    - _BlockLayer1_V: 11.53
+    - _BlockLayer2_Indensity: 1
+    - _BlockLayer2_Intensity: 1.17
+    - _BlockLayer2_U: 4.69
+    - _BlockLayer2_V: 5.48
+    - _BlurSize: 4
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -103,43 +111,32 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
-    - _Fade: 0.825
+    - _Fade: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _Indensity: 0.1
-    - _IndensitySpeed: 0.5
+    - _Intensity: 1
     - _Metallic: 0
     - _OcclusionStrength: 1
-    - _Offset: 0.39
+    - _Offset: 1
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _RGBSplit_Indensity: 1
+    - _RGBSplit_Intensity: 0.5
     - _ReceiveShadows: 1
-    - _ScrollLightMoveSpeed: 0.1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
+    - _SoftKnee: 0.5
     - _SpecularHighlights: 1
+    - _Speed: 1
     - _SrcBlend: 1
     - _Surface: 0
+    - _Threshold: 0.8
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 24.62827, g: 1.1279715, b: 0.902607, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &5637718800392944102
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 5
