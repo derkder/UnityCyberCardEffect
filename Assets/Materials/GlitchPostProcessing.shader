@@ -13,8 +13,9 @@ Shader "Custom/UI/UIBloom"
         _BlockLayer1_Intensity ("Block Layer 1 Intensity", Float) = 1.0
         _BlockLayer2_Intensity ("Block Layer 2 Intensity", Float) = 1.0
         _RGBSplit_Intensity ("RGB Split Intensity", Float) = 0.5
-        _Offset ("Offset", Float) = 1.0
+        _Offset ("Offset", Float) = 0.0
         _Fade ("Fade", Range(0,1)) = 0.5
+        _Speed ("Speed", Float) = 1.0
     }
     SubShader
     { 
@@ -57,6 +58,7 @@ Shader "Custom/UI/UIBloom"
             float _RGBSplit_Intensity;
             float _Offset;
             float _Fade;
+            float _Speed;
 
             struct appdata_t
             {
@@ -84,14 +86,19 @@ Shader "Custom/UI/UIBloom"
 
             float randomNoise(float2 seed)
             {
-                return frac(sin(dot(seed * floor(_Time.x * 30.0), float2(127.1, 311.7))) * 43758.5453123);
+                return frac(sin(dot(seed * floor(_Time.x * 30.0 * _Speed), float2(127.1, 311.7))) * 43758.5453123);
             }
 
 
             fixed4 frag (v2f i) : SV_Target
             {
                 float2 uv = i.texcoord;
-                return tex2D(_MainTex, uv);
+                float4 col =  tex2D(_MainTex, uv);
+                if(0 == _Offset)
+                {
+                    return col;
+                }
+
                 //return float4(_Fade, 0, 0, 0);
                 //float4 color = tex2D(_MainTex, uv);
 
@@ -120,7 +127,7 @@ Shader "Custom/UI/UIBloom"
                 float4 glitchResult = float4(colorR.r, colorG.g, colorB.b, 1);
                 //glitchResult = lerp(colorR, glitchResult, _Fade);
 
-                return glitchResult;
+                return lerp(glitchResult, float4(0, 0, 0, 1), _Fade);
             }
             ENDCG
         }

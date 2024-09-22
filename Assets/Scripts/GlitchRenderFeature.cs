@@ -7,6 +7,10 @@ public class GlitchRenderFeature : ScriptableRendererFeature
     class WhiteScreenPass : ScriptableRenderPass
     {
         private Material material;
+        private float offset = 0f; // 用于控制 _Offset 的值
+        private float fade = 0f;   // 用于控制 _Fade 的值
+        private float speed = 0.1f;  // 控制 _Offset 增长的速度
+        private bool startGlitching = false;
 
         public WhiteScreenPass(Material material)
         {
@@ -15,9 +19,41 @@ public class GlitchRenderFeature : ScriptableRendererFeature
 
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
         {
+            //Debug.Log("Execute");
+
+            if (!startGlitching)
+            {
+                material.SetFloat("_Offset", 0);
+                material.SetFloat("_Fade", fade);
+            }
+
+            if (Input.GetKey(KeyCode.A))
+            {
+                startGlitching = true;
+                Debug.Log("StartGlitching");
+            }
+
             CommandBuffer cmd = CommandBufferPool.Get("WhiteScreenPass");
 
             RenderTargetIdentifier source = renderingData.cameraData.renderer.cameraColorTarget;
+
+            // 逐渐加速的速度控制
+            if (startGlitching)
+            {
+                float accelerationFactor = 1.001f;
+                speed *= accelerationFactor;
+                offset += Time.deltaTime * speed;
+
+                // 当 offset 达到 5 时设置 fade 为 1
+                if (offset >= 5f)
+                {
+                    fade = 1f;
+                }
+            }
+            
+            // 更新到材质上
+            material.SetFloat("_Offset", offset);
+            material.SetFloat("_Fade", fade);
 
             // 创建临时渲染纹理
             RenderTextureDescriptor opaqueDesc = renderingData.cameraData.cameraTargetDescriptor;
@@ -47,76 +83,3 @@ public class GlitchRenderFeature : ScriptableRendererFeature
         renderer.EnqueuePass(whiteScreenPass);
     }
 }
-//using UnityEngine;
-//using UnityEngine.Rendering;
-//using UnityEngine.Rendering.Universal;
-
-//public class GlitchRenderFeature : ScriptableRendererFeature
-//{
-//    class BloomPass : ScriptableRenderPass
-//    {
-//        private Material bloomMaterial;
-//        private RenderTargetIdentifier source;
-//        private RenderTargetHandle tempTexture;
-
-//        public BloomPass(Material material)
-//        {
-//            bloomMaterial = material;
-//            tempTexture.Init("_TemporaryBloomTexture");
-//        }
-
-//        public void Setup(RenderTargetIdentifier source)
-//        {
-//            this.source = source;
-//        }
-
-//        public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
-//        {
-//            CommandBuffer cmd = CommandBufferPool.Get("Bloom Pass");
-
-//            RenderTextureDescriptor opaqueDesc = renderingData.cameraData.cameraTargetDescriptor;
-//            opaqueDesc.depthBufferBits = 0;
-
-//            cmd.GetTemporaryRT(tempTexture.id, opaqueDesc, FilterMode.Bilinear);
-
-//            // Apply bloom shader
-//            Blit(cmd, source, tempTexture.Identifier(), bloomMaterial);
-//            Blit(cmd, tempTexture.Identifier(), source);
-
-//            Debug.Log("Executing Bloom Pass");
-//            Debug.Log("Source: " + source);
-
-//            context.ExecuteCommandBuffer(cmd);
-//            CommandBufferPool.Release(cmd);
-//        }
-
-//        public override void FrameCleanup(CommandBuffer cmd)
-//        {
-//            cmd.ReleaseTemporaryRT(tempTexture.id);
-//        }
-//    }
-
-//    [System.Serializable]
-//    public class BloomSettings
-//    {
-//        public RenderPassEvent renderPassEvent = RenderPassEvent.AfterRenderingOpaques;
-//        public Material bloomMaterial = null;
-//    }
-
-//    public BloomSettings settings = new BloomSettings();
-//    BloomPass bloomPass;
-
-//    public override void Create()
-//    {
-//        bloomPass = new BloomPass(settings.bloomMaterial);
-//        bloomPass.renderPassEvent = settings.renderPassEvent;
-//    }
-
-//    public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
-//    {
-//        Debug.Log("Adding Bloom Pass to render queue");
-
-//        bloomPass.Setup(renderer.cameraColorTarget);
-//        renderer.EnqueuePass(bloomPass);
-//    }
-//}
