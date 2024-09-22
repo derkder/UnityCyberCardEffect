@@ -106,7 +106,7 @@ Material:
     - _Speed: 1.48
     - _SrcBlend: 1
     - _Surface: 0
-    - _Threshold: 0.2
+    - _Threshold: 0.107
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:

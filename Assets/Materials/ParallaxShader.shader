@@ -147,7 +147,7 @@ Shader "Custom/Parallax"
                     for (int y = -_BlurSize; y <= _BlurSize; y++)
                     {
                         float2 offset = float2(x, y) * _MainTex_TexelSize.xy;
-                        blurredBloom += tex2D(_MainTex, i.texcoord + offset).rgb * bloomFactor;
+                        blurredBloom += tex2D(_MainTex, newUV + offset).rgb * bloomFactor;
                     }
                 }
                 blurredBloom /= samples;
